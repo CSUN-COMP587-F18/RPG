@@ -8,8 +8,8 @@ Creature::Creature() {
   defense = 0;
 }
 
-Creature::Creature(int n, int m, int h) {
-	name = std::to_string(n);
+Creature::Creature(std::string n, int m, int h) {
+	name = n;
 	maxHealth = m;
 	health = h;
 }
@@ -43,6 +43,10 @@ void Creature::addHealth(int num) {
 
 // Protected Setters
 void Creature::setName(std::string n) { name = n; }
+
+void Creature::setMaxHealth(int m) { maxHealth = m; }
+
+void Creature::setHealth(int h) { health = h; }
 
 void Creature::setAttack(int a){ attack = a; }
 

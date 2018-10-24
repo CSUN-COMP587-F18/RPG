@@ -11,7 +11,7 @@
 class Player : public Creature{
 public:
 	Player();
-	Player(int, int, int, int, int);
+	Player(std::string, int, int, int, int);
 	int getLevel();
 	int getXp();
 	Weapon getWep();

@@ -6,7 +6,7 @@
 class Creature {
   public:
   Creature();
-  Creature(int, int, int);
+  Creature(std::string, int, int);
   std::string getName();
   int getMaxHealth();
 	int getHealth();
@@ -17,12 +17,14 @@ class Creature {
 
   protected:
   void setName(std::string);
+  void setMaxHealth(int);
+  void setHealth(int);
   void setAttack(int);
   void setDefense(int);
 
   private:
   std::string name;
-	int maxHealth; //TODO make way to increase health
+	int maxHealth;
 	int health;
   int attack;
   int defense;

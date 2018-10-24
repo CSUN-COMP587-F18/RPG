@@ -18,11 +18,11 @@ SRC_DIR = ./src
 CPPFLAGS += -isystem $(GTEST_DIR)/include
 
 # Flags passed to the C++ compiler.
-CXXFLAGS += -g -Wall -Wextra -pthread
+CXXFLAGS += -g -Wall -Wextra -pthread 
 
 # All tests produced by this Makefile.  Remember to add new tests you
 # created to the list.
-TESTS = equipment_unittest #player_unittest
+TESTS = equipment_unittest player_unittest creature_unittest
 
 # All Google Test headers.  Usually you shouldn't change this
 # definition.
@@ -32,8 +32,8 @@ GTEST_HEADERS = $(GTEST_DIR)/include/gtest/*.h \
 run : build
 	./RPG
 
-build : 
-	g++ -o RPG src/*.cpp
+build : $(SRC_DIR)/main.cpp Creature.o Equipment.o Player.o Monster.o Body.o Helm.o Pants.o Shield.o Weapon.o Dungeon.o World.o
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -o RPG $^
 
 test : $(TESTS)
 
@@ -81,40 +81,60 @@ sample1_unittest : sample1.o sample1_unittest.o gtest_main.a
 # My Tests
 
 # Equipment
-Equipment.o : $(SRC_DIR)/Equipment.cpp $(SRC_DIR)/headers/Equipment.h $(GTEST_HEADERS)
+Equipment.o : $(SRC_DIR)/Equipment.cpp $(SRC_DIR)/headers/Equipment.h
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $(SRC_DIR)/Equipment.cpp
 
-Equipment_unittest.o : $(TEST_DIR)/Equipment_unittest.cpp $(SRC_DIR)/headers/Equipment.h $(GTEST_HEADERS)
+# Other Equipment
+Body.o : $(SRC_DIR)/headers/Body.h
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $(SRC_DIR)/Body.cpp
+
+Helm.o : $(SRC_DIR)/headers/Helm.h
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $(SRC_DIR)/Helm.cpp
+
+Pants.o : $(SRC_DIR)/headers/Pants.h
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $(SRC_DIR)/Pants.cpp
+
+Shield.o : $(SRC_DIR)/headers/Shield.h
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $(SRC_DIR)/Shield.cpp
+
+Weapon.o : $(SRC_DIR)/headers/Weapon.h
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $(SRC_DIR)/Weapon.cpp
+
+#Creature
+Creature.o : $(SRC_DIR)/headers/Creature.h
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $(SRC_DIR)/Creature.cpp
+
+# Monster
+Monster.o : $(SRC_DIR)/Monster.cpp $(SRC_DIR)/headers/Monster.h
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $(SRC_DIR)/Monster.cpp
+
+# Player
+Player.o : $(SRC_DIR)/Player.cpp $(SRC_DIR)/headers/Player.h
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $(SRC_DIR)/Player.cpp
+
+# Dungeon
+Dungeon.o : $(SRC_DIR)/Dungeon.cpp $(SRC_DIR)/headers/Dungeon.h
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $(SRC_DIR)/Dungeon.cpp
+
+# World
+World.o : $(SRC_DIR)/World.cpp $(SRC_DIR)/headers/World.h
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $(SRC_DIR)/World.cpp
+	
+
+# Tests
+Equipment_unittest.o : $(TEST_DIR)/Equipment_unittest.cpp $(GTEST_HEADERS)
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $(TEST_DIR)/Equipment_unittest.cpp
 
 equipment_unittest : Equipment.o Equipment_unittest.o gtest_main.a
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -lpthread $^ -o $@
 
-# Other Equipment
-Body.o : $(SRC_DIR)/headers/Body.h $(GTEST_HEADERS)
-	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $(SRC_DIR)/Body.cpp
+Creature_unittest.o : $(TEST_DIR)/Creature_unittest.cpp $(GTEST_HEADERS)
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $(TEST_DIR)/Equipment_unittest.cpp
 
-Helm.o : $(SRC_DIR)/headers/Helm.h $(GTEST_HEADERS)
-	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $(SRC_DIR)/Helm.cpp
+creature_unittest : Creature.o Creature_unittest.o gtest_main.a
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -lpthread $^ -o $@
 
-Pants.o : $(SRC_DIR)/headers/Pants.h $(GTEST_HEADERS)
-	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $(SRC_DIR)/Pants.cpp
-
-Shield.o : $(SRC_DIR)/headers/Shield.h $(GTEST_HEADERS)
-	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $(SRC_DIR)/Shield.cpp
-
-Weapon.o : $(SRC_DIR)/headers/Weapon.h $(GTEST_HEADERS)
-	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $(SRC_DIR)/Weapon.cpp
-
-#Creature
-Creature.o : $(SRC_DIR)/headers/Creature.h $(GTEST_HEADERS)
-	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $(SRC_DIR)/Creature.cpp
-
-# Player
-Player.o : $(SRC_DIR)/Player.cpp $(SRC_DIR)/headers/Player.h $(GTEST_HEADERS)
-	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $(SRC_DIR)/Player.cpp
-
-Player_unittest.o : $(TEST_DIR)/Player_unittest.cpp $(SRC_DIR)/headers/Player.h $(GTEST_HEADERS)
+Player_unittest.o : $(TEST_DIR)/Player_unittest.cpp $(GTEST_HEADERS)
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $(TEST_DIR)/Player_unittest.cpp
 
 player_unittest : Player.o Player_unittest.o gtest_main.a

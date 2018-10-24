@@ -171,7 +171,8 @@ void World::load(){
 	for(int i = 0; i < 5; i++)
 		f >> stats[i];
 
-	p = new Player(stats[0], stats[1], stats[2], stats[3], stats[4]);
+  // TODO Fix this
+	//p = new Player(stats[0], stats[1], stats[2], stats[3], stats[4]);
 
 	f.close();
 }

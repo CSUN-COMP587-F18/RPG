@@ -13,7 +13,10 @@ Player::Player() {
   calculateStats();
 }
 
-Player::Player(int n, int m, int h, int l, int e) {
+Player::Player(std::string n, int m, int h, int l, int e) {
+  setName(n);
+  setMaxHealth(m);
+  setHealth(h);
 	level = l;
 	experience = e;
   // Set up equipment
